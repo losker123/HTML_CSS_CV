@@ -67,6 +67,41 @@
                     </li>
                 </ul>
             </section>
+
+            <section id="code-example" class="container">
+                <h2>Code example</h2>
+                <pre>
+    <code>
+    static Semaphore semaphore = new Semaphore(0, 3);
+       
+    for (int i = 1; i &lt;= 5; i++)
+    {
+        Thread thread = new Thread(DoWork);
+        thread.Name = "Поток " + i;
+        thread.Start();
+    }
+    
+    Console.WriteLine("Нажмите Enter для продолжения...");
+    Console.ReadLine();
+    
+    semaphore.Release(3);
+    
+    Console.WriteLine("Нажмите Enter для завершения...");
+    Console.ReadLine();
+        
+    static void DoWork()
+    {
+        Console.WriteLine(Thread.CurrentThread.Name + " ожидает разрешения.");
+        semaphore.WaitOne();
+    
+        Console.WriteLine(Thread.CurrentThread.Name + " получил разрешение и выполняет работу.");
+        Thread.Sleep(2000);
+    
+        Console.WriteLine(Thread.CurrentThread.Name + " завершил работу и освободил разрешение.");
+        semaphore.Release();
+    }
+    </code>
+    </pre>
     
     </body>
 </html>
